@@ -1,0 +1,14 @@
+# profiles.yml
+
+dbtearn:
+  outputs:
+    dev:
+      type: snowflake
+      account: mc31305.central-india.azure
+      user: ACHUTHA
+      password: Achutha@98
+      role: ACCOUNTADMIN
+      database: AIRBNB
+      warehouse: COMPUTE_WH
+      schema: DEV
+  target: dev

@@ -1,0 +1,6 @@
+dbt-core==1.7.13
+dbt-snowflake==1.7.3
+markupsafe==2.0.1  
+# Add other dependencies here
+
+
