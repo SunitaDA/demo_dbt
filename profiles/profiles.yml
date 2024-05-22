@@ -12,7 +12,7 @@ dbtearn:
       warehouse: COMPUTE_WH
       schema: DEV
   target: dev
-github_actions:
+prod:
   outputs:
     prod:
       type: snowflake
