@@ -12,3 +12,15 @@ dbtearn:
       warehouse: COMPUTE_WH
       schema: DEV
   target: dev
+github_actions:
+  outputs:
+    prod:
+      type: snowflake
+      account: "{{ env_var('DBT_PROFILE_ACCOUNT') }}"
+      user: "{{ env_var('DBT_PROFILE_USER') }}"
+      role: ACCOUNTADMIN
+      password: "{{ env_var('DBT_PROFILE_PASSWORD') }}"
+      database: AIRBNB
+      warehouse: COMPUTE_WH
+      schema: RAW
+
