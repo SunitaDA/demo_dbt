@@ -38,7 +38,7 @@ jobs:
       - name: Prepare DBT profiles directory
         run: |
           mkdir -p ~/.dbt
-          cp config/profiles.yml ~/.dbt/profiles.yml  # Update this line if profiles.yml is in a subdirectory
+          cp profiles.yml ~/.dbt/profiles.yml  # Update this line if profiles.yml is in a subdirectory
         working-directory: ./
 
       - name: Install dbt packages
