@@ -1,11 +1,11 @@
-name: dbt production run on push branches to main
+name: Build and Test on Dev
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
 
 env:
-  DBT_PROFILE_TARGET: prod
+  DBT_PROFILE_TARGET: dev
   DBT_PROFILE_ACCOUNT: ${{ secrets.DBT_PROFILE_ACCOUNT }}
   DBT_PROFILE_USER: ${{ secrets.DBT_PROFILE_USER }}
   DBT_PROFILE_PASSWORD: ${{ secrets.DBT_PROFILE_PASSWORD }}
@@ -15,13 +15,13 @@ env:
   DBT_PROFILE_WH: ${{ secrets.DBT_PROFILE_WH }}
 
 jobs:
-  dbt_run:
-    name: dbt refresh and test on push branches to main
+  build_and_test:
+    name: Build and Test dbt Project
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Python environment
@@ -35,34 +35,24 @@ jobs:
           python -m pip install -r requirements.txt
         working-directory: ./
 
+      - name: List files for debugging
+        run: ls -al
+        working-directory: ./
+
       - name: Prepare DBT profiles directory
         run: |
           mkdir -p ~/.dbt
-          cp profiles.yml ~/.dbt/profiles.yml
-        working-directory: ./
-
-      - name: Save the manifest file from previous run
-        run: |
-          mkdir -p ~/ci_new_state
-          cp target/manifest.json ~/ci_new_state/manifest.json
+          cp profiles/profiles.yml ~/.dbt/profiles.yml  # Update this line to point to the profiles directory
         working-directory: ./
 
       - name: Install dbt packages
-        run: dbt deps
-        # optionally use this parameter
-        # to set a main directory of dbt project:
+        run: dbt deps --profiles-dir ~/.dbt --profile github_actions --target dev
         working-directory: ./
 
       - name: Run the models
-        run: dbt run -s "@state:modified" --defer --state  ~/ci_new_state --profiles-dir ./ --profile github_actions --target prod
+        run: dbt run --profiles-dir ~/.dbt --profile github_actions --target dev
         working-directory: ./
 
       - name: Run tests
-        run: dbt test -s "@state:modified" --defer --state  ~/ci_new_state --profiles-dir ./ --profile github_actions --target prod
+        run: dbt test --profiles-dir ~/.dbt --profile github_actions --target dev
         working-directory: ./
-
-      - name: Upload manifest.json
-        uses: actions/upload-artifact@v2
-        with:
-          name: dbt-manifest
-          path: target/manifest.json
