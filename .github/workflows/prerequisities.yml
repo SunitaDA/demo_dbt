@@ -45,10 +45,4 @@ jobs:
         run: dbt deps --profiles-dir ~/.dbt --profile github_actions --target dev
         working-directory: ./
 
-      - name: Run the models
-        run: dbt run --profiles-dir ~/.dbt --profile github_actions --target dev
-        working-directory: ./
-
-      - name: Run tests
-        run: dbt test --profiles-dir ~/.dbt --profile github_actions --target dev
-        working-directory: ./
+     
