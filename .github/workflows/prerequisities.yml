@@ -38,11 +38,17 @@ jobs:
       - name: Prepare DBT profiles directory
         run: |
           mkdir -p ~/.dbt
-          cp profiles.yml ~/.dbt/profiles.yml
+          cp config/profiles.yml ~/.dbt/profiles.yml  # Update this line if profiles.yml is in a subdirectory
         working-directory: ./
 
       - name: Install dbt packages
         run: dbt deps --profiles-dir ~/.dbt --profile github_actions --target dev
         working-directory: ./
 
-     
+      - name: Run the models
+        run: dbt run --profiles-dir ~/.dbt --profile github_actions --target dev
+        working-directory: ./
+
+      - name: Run tests
+        run: dbt test --profiles-dir ~/.dbt --profile github_actions --target dev
+        working-directory: ./
