@@ -35,10 +35,14 @@ jobs:
           python -m pip install -r requirements.txt
         working-directory: ./
 
+      - name: List files for debugging
+        run: ls -al
+        working-directory: ./
+
       - name: Prepare DBT profiles directory
         run: |
           mkdir -p ~/.dbt
-          cp profiles.yml ~/.dbt/profiles.yml  # Update this line if profiles.yml is in a subdirectory
+          cp config/profiles.yml ~/.dbt/profiles.yml  # Update this line if profiles.yml is in a subdirectory
         working-directory: ./
 
       - name: Install dbt packages
