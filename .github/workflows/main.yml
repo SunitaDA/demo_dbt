@@ -38,7 +38,7 @@ jobs:
       - name: Prepare DBT profiles directory
         run: |
           mkdir -p ~/.dbt
-          cp profiles.yml ~/.dbt/profiles/profiles.yml
+          cp profiles.yml ~/.dbt/profiles.yml
         working-directory: ./
 
       - name: Save the manifest file from previous run
